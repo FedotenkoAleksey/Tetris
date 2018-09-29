@@ -18,183 +18,187 @@ import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
 class ControllersPanel extends JPanel implements ActionListener {
+
     private JFrame frame;
-    JTextField textfield;
-    Action spaceAction;
-    Action downAction;
-    Action leftAction;
-    Action rightAction;
-    Action upAction;
-    Heap heap;
+    private JTextField textfield; // text field to register key listeners
+    Action spaceAction; // action for KeyBinding
+    Action downAction;  // action for KeyBinding
+    Action leftAction;  // action for KeyBinding
+    Action rightAction; // action for KeyBinding
+    Action upAction;    // action for KeyBinding
+    Heap heap; // heap of figures
     ShapeFactory shapeFactory;
     int shapeCount;
     Score score;
-    
-    
-    
+
     int timeCount = 0;
-    
+
     Shape shape;
-    
+
     Timer timer;
     int SPEED = 50;
-    
+
     public ControllersPanel() {
         prepareGUI();
     }
-    
+
     public static void main(String[] args) {
         new ControllersPanel();
     }
-    
-    public void prepareGUI() {         
+
+    public void prepareGUI() {
         // JTextField to add Actions to
         textfield = new JTextField();
-        textfield.setPreferredSize(new Dimension(0, 0));
         
+        // set size of textfield to zero because it's 
+        // only needed to register key listeners
+        textfield.setPreferredSize(new Dimension(0, 0));
+
+        // initialize an action and specify functionality of the action
         leftAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 shape.leftMove(heap);
             }
         };
-        
+
+        // initialize an action and specify functionality of the action
         rightAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 shape.rightMove(heap);
             }
         };
-        
+
+        // initialize an action and specify functionality of the action
         downAction = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 shape.dive(heap);
             }
         };
-        
+
+        // initialize an action and specify functionality of the action
         spaceAction = new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) {                
+            public void actionPerformed(ActionEvent e) {
                 shape.rotate(heap);
             }
         };
-        
+
+        // initialize an action and specify functionality of the action
         upAction = new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) {                
+            public void actionPerformed(ActionEvent e) {
                 shape.rotate(heap);
             }
         };
-        
-        // the next two lines do key binding
-        textfield.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),   
-                                    "doLeftAction");
+
+        // the next lines do key binding
+        textfield.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
+                "doLeftAction");
         textfield.getActionMap().put("doLeftAction", leftAction);
-        
+
         textfield.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
-                                    "doRightAction");
+                "doRightAction");
         textfield.getActionMap().put("doRightAction", rightAction);
-        
+
         textfield.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),
-                                    "doDownAction");
+                "doDownAction");
         textfield.getActionMap().put("doDownAction", downAction);
-        
+
         textfield.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),
-                                    "doSpaceAction");
+                "doSpaceAction");
         textfield.getActionMap().put("doSpaceAction", spaceAction);
-        
+
         textfield.getInputMap().put(KeyStroke.getKeyStroke("UP"),
-                                    "doUpAction");
+                "doUpAction");
         textfield.getActionMap().put("doUpAction", upAction);
-        
-        
+        // end of key binding lines
+
         this.add(textfield);
-        
-        
-        
+
         score = new Score();
         heap = new Heap(score);
-        
-        shape = shapeFactory.createShape(ShapeType.LSHAPE.getRandomShapeType(), heap);              
+
+        shape = shapeFactory.createShape(ShapeType.LSHAPE.getRandomShapeType(), heap);
         shapeCount = 1;
-        
-        
+
         frame = new JFrame();
         frame.add(this);
         frame.setSize(540, 500);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
-        frame.setLocation(screenWidth/4, screenHeight/40);
-        
+        frame.setLocation(screenWidth / 4, screenHeight / 40);
+
         timer = new Timer(SPEED, this);
     }
-    
-     public void drawBlackField(Graphics2D g2) {
+
+    public void drawBlackField(Graphics2D g2) {
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, getWidth(), getHeight());
     }
-     
-     public void drawFrameLines(Graphics2D g2) {
-         // let's get box's size first
+
+    public void drawFrameLines(Graphics2D g2) {
+        // let's get box's size first
         int size = Box.SIZE; // TODO any access to this constant should be made only through the getter method.
         int width = size * 10;
         int height = width * 2;
-         
+
         g2.setColor(Color.WHITE);
         g2.drawLine(size, size, width + size, size);
         g2.drawLine(width + size, size, width + size, height + size);
         g2.drawLine(width + size, height + size, size, height + size);
         g2.drawLine(size, height + size, size, size);
-        
+
     }
-     
+
     public void drawScore(Graphics2D g2) {
         g2.setColor(Color.WHITE);
         Font font = new Font("Calibri", Font.PLAIN, 27);
         g2.setFont(font);
         String shapeCount = "Shape Number: " + this.shapeCount;
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2.drawString(shapeCount, Box.SIZE*10 + 60, 50); // TODO any access to this constant should be made only through the getter method.
-        
+        g2.drawString(shapeCount, Box.SIZE * 10 + 60, 50); // TODO any access to this constant should be made only through the getter method.
+
         String scoreText = "Score:                  " + score.getScore();
-        g2.drawString(scoreText, Box.SIZE*10 + 60, 90); // TODO any access to this constant should be made only through the getter method.
-        
-        int efficiency = (int) Math.round((((double)score.getScore() * 10.0) / ((double) this.shapeCount * 4.0)) * 100.0);    
+        g2.drawString(scoreText, Box.SIZE * 10 + 60, 90); // TODO any access to this constant should be made only through the getter method.
+
+        int efficiency = (int) Math.round((((double) score.getScore() * 10.0) / ((double) this.shapeCount * 4.0)) * 100.0);
         String effText = "Efficiency:           " + efficiency;
-        g2.drawString(effText, Box.SIZE*10 + 60, 130); // TODO any access to this constant should be made only through the getter method.
-        
+        g2.drawString(effText, Box.SIZE * 10 + 60, 130); // TODO any access to this constant should be made only through the getter method.
+
         if (score.isGameOver()) {
             String gameOverString = "GAME OVER";
             font = new Font("Calibri", Font.PLAIN, 45);
             g2.setColor(Color.ORANGE);
             g2.setFont(font);
-            g2.drawString(gameOverString, Box.SIZE*10 + 60, 250); // TODO any access to this constant should be made only through the getter method.
+            g2.drawString(gameOverString, Box.SIZE * 10 + 60, 250); // TODO any access to this constant should be made only through the getter method.
         }
-        
+
     } // end of method
-     
-     @Override
-     public void paintComponent(Graphics g) {
-         Graphics2D g2 = (Graphics2D) g;
-         drawBlackField(g2);
-         drawFrameLines(g2);
-         heap.draw(g2);
-         shape.draw(g2);
-         
-         drawScore(g2);
-         
-         timer.start();
-         
-     }
-     
-     @Override
-     public void actionPerformed(ActionEvent event) {         
+
+    @Override
+    public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        drawBlackField(g2);
+        drawFrameLines(g2);
+        heap.draw(g2);
+        shape.draw(g2);
+
+        drawScore(g2);
+
+        timer.start();
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
         timeCount++;
         if ((timeCount % 15) == 0) {
             timeCount -= 15;
@@ -203,16 +207,15 @@ class ControllersPanel extends JPanel implements ActionListener {
         if (!score.isGameOver()) {
             launchShapeListener();
         }
-        
-         
-         repaint();
-     }
-     
-     public void launchShapeListener() {
-         if (shape.getIsPetrified()) {
-             shape = shapeFactory.createShape(ShapeType.LSHAPE.getRandomShapeType(), heap);
-             shapeCount++;
-             System.out.println("Shape count: " + shapeCount); // debug line
-         }
-     }
+
+        repaint();
+    }
+
+    public void launchShapeListener() {
+        if (shape.getIsPetrified()) {
+            shape = shapeFactory.createShape(ShapeType.LSHAPE.getRandomShapeType(), heap);
+            shapeCount++;
+            System.out.println("Shape count: " + shapeCount); // debug line
+        }
+    }
 }
