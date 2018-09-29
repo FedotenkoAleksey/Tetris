@@ -12,6 +12,8 @@ class Box {
     
     /**
      * SIZE is an actual constant size of a box.
+     * TODO any access to this constant should be made only through the 
+     * getter method. And after that constant SIZE should be made private
      */
     public static final int SIZE = 20;
     
@@ -28,8 +30,8 @@ class Box {
 
     /** Constructor of a Box with coordinates x and y.
      * 
-     * @param x - x coordinate of the box
-     * @param y - y coordinate of the box
+     * @param x - x coordinate of the box from 1 to 10
+     * @param y - y coordinate of the box from 1 to 20
      */
     public Box(int x, int y) {
         this.x = x * SIZE;
@@ -63,8 +65,11 @@ class Box {
     
     
     public void setX(int x) {
-        this.x = x * SIZE; // makes coordinates 20 pixel matrix-based
-        // TODO add some distance to make a box appear in the frame
+        if (x <= 10) {
+            this.x = x * SIZE; // makes coordinates 20 pixel matrix-based
+            // TODO add some distance to make a box appear in the frame            
+        }
+        
     }
     
     public void setY(int y) {
