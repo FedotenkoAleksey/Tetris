@@ -18,7 +18,7 @@ import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
 class ControllersPanel extends JPanel implements ActionListener {
-    JFrame frame;
+    private final JFrame frame;
     JTextField textfield;
     Action spaceAction;
     Action downAction;
