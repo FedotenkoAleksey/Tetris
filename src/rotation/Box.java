@@ -13,7 +13,7 @@ class Box {
     /**
      * SIZE is an actual constant size of a box.
      */
-    static final int SIZE = 20;
+    private static final int SIZE = 20;
     
     /**
      * color is an initial color which is set to green here. It is typically reset
@@ -36,14 +36,26 @@ class Box {
         this.y = y * SIZE;
     }
     
+    /** Getter method 
+     * 
+     * @return the position of x from 1 to 10.
+     */
     public int getX() {
         return x / SIZE;
     }
     
+    /** Getter method
+     * 
+     * @return the position of y from 1 to 20.
+     */
     public int getY() {
         return y / SIZE;
     }
     
+    /** Getter method of SIZE constant
+     * 
+     * @return 
+     */
     public int getSize() {
         return SIZE;
     }
