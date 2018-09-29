@@ -20,7 +20,7 @@ import javax.swing.Timer;
 class ControllersPanel extends JPanel implements ActionListener {
 
     private JFrame frame;
-    private JTextField textfield; // text field to register key listeners
+    private JTextField textField; // text field to register key listeners
     Action spaceAction; // action for KeyBinding
     Action downAction;  // action for KeyBinding
     Action leftAction;  // action for KeyBinding
@@ -48,11 +48,11 @@ class ControllersPanel extends JPanel implements ActionListener {
 
     public void prepareGUI() {
         // JTextField to add Actions to
-        textfield = new JTextField();
+        textField = new JTextField();
         
-        // set size of textfield to zero because it's 
+        // set size of textField to zero because it's 
         // only needed to register key listeners
-        textfield.setPreferredSize(new Dimension(0, 0));
+        textField.setPreferredSize(new Dimension(0, 0));
 
         // initialize an action and specify functionality of the action
         leftAction = new AbstractAction() {
@@ -95,28 +95,28 @@ class ControllersPanel extends JPanel implements ActionListener {
         };
 
         // the next lines do key binding
-        textfield.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
+        textField.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),
                 "doLeftAction");
-        textfield.getActionMap().put("doLeftAction", leftAction);
+        textField.getActionMap().put("doLeftAction", leftAction);
 
-        textfield.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
+        textField.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),
                 "doRightAction");
-        textfield.getActionMap().put("doRightAction", rightAction);
+        textField.getActionMap().put("doRightAction", rightAction);
 
-        textfield.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),
+        textField.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),
                 "doDownAction");
-        textfield.getActionMap().put("doDownAction", downAction);
+        textField.getActionMap().put("doDownAction", downAction);
 
-        textfield.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),
+        textField.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),
                 "doSpaceAction");
-        textfield.getActionMap().put("doSpaceAction", spaceAction);
+        textField.getActionMap().put("doSpaceAction", spaceAction);
 
-        textfield.getInputMap().put(KeyStroke.getKeyStroke("UP"),
+        textField.getInputMap().put(KeyStroke.getKeyStroke("UP"),
                 "doUpAction");
-        textfield.getActionMap().put("doUpAction", upAction);
+        textField.getActionMap().put("doUpAction", upAction);
         // end of key binding lines
 
-        this.add(textfield);
+        this.add(textField);
 
         score = new Score();
         heap = new Heap(score);
