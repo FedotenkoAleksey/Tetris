@@ -13,7 +13,7 @@ class Box {
     /**
      * SIZE is an actual constant size of a box.
      */
-    private static final int SIZE = 20;
+    public static final int SIZE = 20;
     
     /**
      * color is an initial color which is set to green here. It is typically reset
@@ -54,7 +54,7 @@ class Box {
     
     /** Getter method of SIZE constant
      * 
-     * @return 
+     * @return SIZE constant which is a size of a box, component of any figure
      */
     public int getSize() {
         return SIZE;
