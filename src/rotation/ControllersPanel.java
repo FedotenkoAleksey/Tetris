@@ -36,6 +36,7 @@ class ControllersPanel extends JPanel implements ActionListener {
     int timeCount = 0; // counts number of "frames" which is actually calls to
     // actionPerformed() method of Timer object. It is used mainly to make a 
     // fall move every 15 counts.
+    private final int TIME_COUNTS_IN_ONE_FALL_MOVE = 15;
     
 
     Shape shape;
@@ -207,8 +208,8 @@ class ControllersPanel extends JPanel implements ActionListener {
         timeCount++;
         
         // TODO remove MAGIC NUMBER 15 as a constant variable
-        if ((timeCount % 15) == 0) {
-            timeCount -= 15;
+        if ((timeCount % TIME_COUNTS_IN_ONE_FALL_MOVE) == 0) {
+            timeCount -= TIME_COUNTS_IN_ONE_FALL_MOVE;
             shape.fall(heap);
         }
         if (!score.isGameOver()) {
