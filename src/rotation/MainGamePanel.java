@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
-class ControllersPanel extends JPanel implements ActionListener {
+class MainGamePanel extends JPanel implements ActionListener {
 
     private JFrame frame;
     /**
@@ -81,14 +81,18 @@ class ControllersPanel extends JPanel implements ActionListener {
     /** ControllersPanel constructor which invokes prepareGUI() method.
      * 
      */
-    public ControllersPanel() {
+    public MainGamePanel() {
         prepareGUI();
     }
 
     public static void main(String[] args) {
-        new ControllersPanel();
+        new MainGamePanel();
     }
 
+    /** prepareGUI() method prepares all the GUI elements of the game, 
+     * does some key binding, initializes Heap, Score and Shape objects and sets
+     * variable shapeCount to 1.
+     */
     public void prepareGUI() {
         // JTextField to add Actions to
         textField = new JTextField();
@@ -96,6 +100,8 @@ class ControllersPanel extends JPanel implements ActionListener {
         // set size of textField to zero because it's 
         // only needed to register key listeners
         textField.setPreferredSize(new Dimension(0, 0));
+        
+        // =============== START OF BLOCK OF KEY BINDGING STATEMENTS ========== 
 
         // initialize an action and specify functionality of the action
         leftAction = new AbstractAction() {
@@ -157,13 +163,15 @@ class ControllersPanel extends JPanel implements ActionListener {
         textField.getInputMap().put(KeyStroke.getKeyStroke("UP"),
                 "doUpAction");
         textField.getActionMap().put("doUpAction", upAction);
-        // end of key binding lines
+        
+        // =============== END OF BLOCK OF KEY BINDGING STATEMENTS ==========
 
         this.add(textField);
 
         score = new Score();
         heap = new Heap(score);
 
+        // Initialize a random shape object.
         shape = shapeFactory.createShape(ShapeType.L_SHAPE.getRandomShapeType(), heap);
         shapeCount = 1;
 
@@ -173,6 +181,8 @@ class ControllersPanel extends JPanel implements ActionListener {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Placing a game window in the 1/4 of screen width and 1/40 of
+        // screen height.
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
         int screenWidth = screenSize.width;
