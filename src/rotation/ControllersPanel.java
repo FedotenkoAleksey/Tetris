@@ -21,11 +21,13 @@ class ControllersPanel extends JPanel implements ActionListener {
 
     private JFrame frame;
     private JTextField textField; // text field to register key listeners
+    
     Action spaceAction; // action for KeyBinding
     Action downAction;  // action for KeyBinding
     Action leftAction;  // action for KeyBinding
     Action rightAction; // action for KeyBinding
     Action upAction;    // action for KeyBinding
+    
     Heap heap; // heap of figures
     ShapeFactory shapeFactory;
     int shapeCount; // counts shapes since the beginning of a game session
@@ -34,11 +36,12 @@ class ControllersPanel extends JPanel implements ActionListener {
     int timeCount = 0; // counts number of "frames" which is actually calls to
     // actionPerformed() method of Timer object. It is used mainly to make a 
     // fall move every 15 counts.
+    
 
     Shape shape;
 
     Timer timer;
-    int SPEED = 50;
+    private final int SPEED = 50;
 
     public ControllersPanel() {
         prepareGUI();
