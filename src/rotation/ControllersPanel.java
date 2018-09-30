@@ -28,10 +28,12 @@ class ControllersPanel extends JPanel implements ActionListener {
     Action upAction;    // action for KeyBinding
     Heap heap; // heap of figures
     ShapeFactory shapeFactory;
-    int shapeCount;
+    int shapeCount; // counts shapes since the beginning of a game session
     Score score;
 
-    int timeCount = 0;
+    int timeCount = 0; // counts number of "frames" which is actually calls to
+    // actionPerformed() method of Timer object. It is used mainly to make a 
+    // fall move every 15 counts.
 
     Shape shape;
 
@@ -121,7 +123,7 @@ class ControllersPanel extends JPanel implements ActionListener {
         score = new Score();
         heap = new Heap(score);
 
-        shape = shapeFactory.createShape(ShapeType.LSHAPE.getRandomShapeType(), heap);
+        shape = shapeFactory.createShape(ShapeType.L_SHAPE.getRandomShapeType(), heap);
         shapeCount = 1;
 
         frame = new JFrame();
@@ -200,6 +202,8 @@ class ControllersPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         timeCount++;
+        
+        // TODO remove MAGIC NUMBER 15 as a constant variable
         if ((timeCount % 15) == 0) {
             timeCount -= 15;
             shape.fall(heap);
@@ -213,7 +217,7 @@ class ControllersPanel extends JPanel implements ActionListener {
 
     public void launchShapeListener() {
         if (shape.getIsPetrified()) {
-            shape = shapeFactory.createShape(ShapeType.LSHAPE.getRandomShapeType(), heap);
+            shape = shapeFactory.createShape(ShapeType.L_SHAPE.getRandomShapeType(), heap);
             shapeCount++;
             System.out.println("Shape count: " + shapeCount); // debug line
         }
