@@ -20,30 +20,67 @@ import javax.swing.Timer;
 class ControllersPanel extends JPanel implements ActionListener {
 
     private JFrame frame;
-    private JTextField textField; // text field to register key listeners
-    
-    Action spaceAction; // action for KeyBinding
-    Action downAction;  // action for KeyBinding
-    Action leftAction;  // action for KeyBinding
-    Action rightAction; // action for KeyBinding
-    Action upAction;    // action for KeyBinding
-    
+    /**
+     * Text field to register key listeners
+     *
+     */
+    private JTextField textField;
+
+    /**
+     * Action for KeyBinding of SPACE KEY
+     */
+    Action spaceAction;
+    /**
+     * Action for KeyBinding of DOWN KEY
+     */
+    Action downAction;
+    /**
+     * Action for KeyBinding of LEFT KEY
+     */
+    Action leftAction;
+    /**
+     * Action for KeyBinding of RIGHT KEY
+     */
+    Action rightAction;
+    /**
+     * Action for KeyBinding of UP KEY
+     */
+    Action upAction;
+
     Heap heap; // heap of figures
     ShapeFactory shapeFactory;
-    int shapeCount; // counts shapes since the beginning of a game session
+    /**
+     * Variable shapeCount counts shapes since the beginning of a game session
+     */
+    int shapeCount;
     Score score;
 
-    int timeCount = 0; // counts number of "frames" which is actually calls to
-    // actionPerformed() method of Timer object. It is used mainly to make a 
-    // fall move every 15 counts.
-    private final int TIME_COUNTS_IN_ONE_FALL_MOVE = 15;
-    
+    /**
+     * Variable timeCount counts number of "frames" which is actually calls to
+     * actionPerformed() method of Timer object. It is used mainly to make a
+     * fall move every 15 counts.
+     */
+    int timeCount = 0;
 
+    private final int TIME_COUNTS_IN_ONE_FALL_MOVE = 15;
+
+    /** Current shape which is falling onto a heap.
+     * 
+     */
     Shape shape;
 
+    /** Swing object to implement animation. 
+     * 
+     */
     Timer timer;
+    /** Constant SPEED which is a parameter for Timer of Swing constructor and 
+     * determines a speed of frames change.
+     */
     private final int SPEED = 50;
 
+    /** ControllersPanel constructor which invokes prepareGUI() method.
+     * 
+     */
     public ControllersPanel() {
         prepareGUI();
     }
@@ -55,7 +92,7 @@ class ControllersPanel extends JPanel implements ActionListener {
     public void prepareGUI() {
         // JTextField to add Actions to
         textField = new JTextField();
-        
+
         // set size of textField to zero because it's 
         // only needed to register key listeners
         textField.setPreferredSize(new Dimension(0, 0));
@@ -206,8 +243,7 @@ class ControllersPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         timeCount++;
-        
-        // TODO remove MAGIC NUMBER 15 as a constant variable
+
         if ((timeCount % TIME_COUNTS_IN_ONE_FALL_MOVE) == 0) {
             timeCount -= TIME_COUNTS_IN_ONE_FALL_MOVE;
             shape.fall(heap);
